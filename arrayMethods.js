@@ -79,3 +79,10 @@ let nums = [1,2,2,3,5,5,6];
 console.log("work-7");
 const uniqueNums = nums.filter((num, index) => nums.indexOf(num) === index);
 console.log(uniqueNums);
+
+//work-8
+let data = [1,2,3,4,5,6];
+// Example task: get the sum of all even numbers multiplied by 2
+console.log("work-8")
+const modifiedData=data.filter(num=>num % 2==0).map(num=>num*2).reduce((sum,num)=>sum+num,0);
+console.log(modifiedData);
