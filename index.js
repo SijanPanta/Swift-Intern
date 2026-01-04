@@ -7,7 +7,6 @@ async function fetchPosts() {
       throw new Error("Network response was not ok " + response.statusText);
     }
     allPosts = await response.json();
-    console.log(allPosts);
     displayPosts(allPosts);
   } catch (error) {
     console.error("There has been a problem with your fetch operation:", error);

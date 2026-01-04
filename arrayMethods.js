@@ -86,3 +86,23 @@ let data = [1,2,3,4,5,6];
 console.log("work-8")
 const modifiedData=data.filter(num=>num % 2==0).map(num=>num*2).reduce((sum,num)=>sum+num,0);
 console.log(modifiedData);
+
+//work-9
+data=[2,5,6,3,1]
+console.log("work-9")
+const sortData=data.sort()
+console.log(sortData)
+
+//work-10
+//using set to make a array unique
+console.log("work-10")
+data=[1,2,3,3,4,4,4,5,6]
+uniqueData=[...new Set(data)];
+console.log(uniqueData)
+
+//work-11
+//move even numbers to the front and odd num to back
+console.log("work-11")
+evenOdd=uniqueData.filter(num=>num%2==0).concat(uniqueData.filter(num=>num%2!==0));
+console.log(evenOdd);
+
