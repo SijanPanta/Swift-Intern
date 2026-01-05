@@ -3,8 +3,8 @@ const http = require("http");
 const hostname = "127.0.0.1";
 const port = 3000;
 
-// Store the posted data here
-let storedData = null;
+// Store all posted data here
+let storedData = [];
 
 const server = http.createServer((req, res) => {
   if (req.url === "/") {
@@ -18,9 +18,8 @@ const server = http.createServer((req, res) => {
   } else if (req.url === "/api/data" && req.method === "GET") {
     res.statusCode = 200;
     res.setHeader("Content-Type", "application/json");
-    // Return stored data or default data
-    const data = storedData || { name: "Sijan", age: 19 };
-    res.end(JSON.stringify(data));
+    // Return all stored data
+    res.end(JSON.stringify(storedData));
   } else if (req.url === "/api/data" && req.method === "POST") {
     let body = "";
     req.on("data", (chunk) => {
@@ -28,16 +27,20 @@ const server = http.createServer((req, res) => {
     });
     req.on("end", () => {
       console.log("received:", body);
-      // Store the received data
+      // Add the received data to the array
       try {
-        storedData = JSON.parse(body);
+        storedData.push(JSON.parse(body));
       } catch (e) {
-        storedData = { raw: body };
+        storedData.push({ raw: body });
       }
       res.statusCode = 200;
       res.setHeader("Content-Type", "text/plain");
       res.end("data received");
     });
+  } else if (req.url === "/api/data" && req.method === "DELETE") {
+    storedData = [];
+    res.statusCode = 204;
+    res.end("Data Deleted");
   } else {
     res.statusCode = 404;
     res.setHeader("Content-Type", "text/plain");
