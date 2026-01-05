@@ -6,47 +6,75 @@ const port = 3000;
 // Store all posted data here
 let storedData = [];
 
-const server = http.createServer((req, res) => {
+// Handler functions
+const handleHome = (req, res) => {
+  res.statusCode = 200;
+  res.setHeader("Content-Type", "text/plain");
+  res.end("home page");
+};
+
+const handleAbout = (req, res) => {
+  res.statusCode = 200;
+  res.setHeader("Content-Type", "text/plain");
+  res.end("About Page");
+};
+
+const handleGetData = (req, res) => {
+  res.statusCode = 200;
+  res.setHeader("Content-Type", "application/json");
+  res.end(JSON.stringify(storedData));
+};
+
+const handlePostData = (req, res) => {
+  let body = "";
+  req.on("data", (chunk) => {
+    body += chunk;
+  });
+  req.on("end", () => {
+    console.log("received:", body);
+    try {
+      storedData.push(JSON.parse(body));
+    } catch (e) {
+      storedData.push({ raw: body });
+    }
+    res.statusCode = 200;
+    res.setHeader("Content-Type", "text/plain");
+    res.end("data received");
+  });
+};
+
+const handleDeleteData = (req, res) => {
+  storedData = [];
+  res.statusCode = 200;
+  res.setHeader("Content-Type", "text/plain");
+  console.log("data deleted")
+  res.end()
+};
+
+const handleNotFound = (req, res) => {
+  res.statusCode = 404;
+  res.setHeader("Content-Type", "text/plain");
+  res.end("Page not found");
+};
+
+// Router function
+const router = (req, res) => {
   if (req.url === "/") {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/plain");
-    res.end("home page");
+    handleHome(req, res);
   } else if (req.url === "/about") {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "text/plain");
-    res.end("About Page");
+    handleAbout(req, res);
   } else if (req.url === "/api/data" && req.method === "GET") {
-    res.statusCode = 200;
-    res.setHeader("Content-Type", "application/json");
-    // Return all stored data
-    res.end(JSON.stringify(storedData));
+    handleGetData(req, res);
   } else if (req.url === "/api/data" && req.method === "POST") {
-    let body = "";
-    req.on("data", (chunk) => {
-      body += chunk;
-    });
-    req.on("end", () => {
-      console.log("received:", body);
-      // Add the received data to the array
-      try {
-        storedData.push(JSON.parse(body));
-      } catch (e) {
-        storedData.push({ raw: body });
-      }
-      res.statusCode = 200;
-      res.setHeader("Content-Type", "text/plain");
-      res.end("data received");
-    });
+    handlePostData(req, res);
   } else if (req.url === "/api/data" && req.method === "DELETE") {
-    storedData = [];
-    res.statusCode = 204;
-    res.end("Data Deleted");
+    handleDeleteData(req, res);
   } else {
-    res.statusCode = 404;
-    res.setHeader("Content-Type", "text/plain");
-    res.end("Page not found");
+    handleNotFound(req, res);
   }
-});
+};
+
+const server = http.createServer(router);
 
 server.listen(port, hostname, () => {
   console.log(`Server running at http://${hostname}:${port}/`);
