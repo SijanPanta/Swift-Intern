@@ -1,0 +1,60 @@
+[{
+    "name": "John Doe",
+    "age": 30,
+    "email": "john.doe@example.com",
+    "isActive": true
+},
+{
+    "name": "Jane Smith",
+    "age": 28,
+    "email": "jane.smith@example.com",
+    "isActive": true
+},
+{
+    "name": "Bob Johnson",
+    "age": 35,
+    "email": "bob.johnson@example.com",
+    "isActive": false
+},
+{
+    "name": "Alice Williams",
+    "age": 42,
+    "email": "alice.williams@example.com",
+    "isActive": true
+},
+{
+    "name": "Charlie Brown",
+    "age": 25,
+    "email": "charlie.brown@example.com",
+    "isActive": true
+},
+{
+    "name": "Diana Martinez",
+    "age": 31,
+    "email": "diana.martinez@example.com",
+    "isActive": false
+},
+{
+    "name": "Edward Davis",
+    "age": 38,
+    "email": "edward.davis@example.com",
+    "isActive": true
+},
+{
+    "name": "Fiona Garcia",
+    "age": 29,
+    "email": "fiona.garcia@example.com",
+    "isActive": true
+},
+{
+    "name": "George Wilson",
+    "age": 45,
+    "email": "george.wilson@example.com",
+    "isActive": false
+},
+{
+    "name": "Hannah Moore",
+    "age": 33,
+    "email": "hannah.moore@example.com",
+    "isActive": true
+}]
