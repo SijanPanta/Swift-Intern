@@ -70,8 +70,7 @@ const router = (req, res) => {
   } else if (req.url === "/api/data" && req.method === "DELETE") {
     handleDeleteData(req, res);
   } else {
-    handleNotFound(req, res);
-  }
+    handleNotFound(req, res)  }
 };
 
 const server = http.createServer(router);
