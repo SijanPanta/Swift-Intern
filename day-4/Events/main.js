@@ -1,13 +1,12 @@
-var fs =require("fs");
-
-fs.readFile('./Events/input.txt',(err,data)=>{
-    // console.log("inside readFIle")
-    if (err){
-        // console.log("inside err")
-        console.log(err.stack);
-        return;
+let allPosts=[]
+try {
+    const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+    if (!response.ok) {
+      throw new Error("Network response was not ok " + response.statusText);
     }
-    console.log(data.toString());
-});
-
-console.log("program ended");
+    allPosts = await response.json();
+    // displayPosts(allPosts);
+    console.table(allPosts)
+  } catch (error) {
+    console.error("There has been a problem with your fetch operation:", error);
+  }

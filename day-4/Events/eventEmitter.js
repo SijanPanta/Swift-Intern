@@ -12,3 +12,9 @@ eventEmitter.on("print",()=>{
 
 eventEmitter.emit("print");
 console.log(eventEmitter.listenerCount("print"));
+
+const A = [
+ {id:1, name:"BMW"},
+ {id:2, name:"CIAZ"},
+];
+console.table(A);
