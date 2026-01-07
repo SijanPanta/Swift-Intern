@@ -36,6 +36,29 @@ console.log("work-3")
 
    const filterArr=marks.filter(marks=>marks>50);
    console.log(filterArr);
+const nodemailer = require('nodemailer');
+
+const x = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'pickaxe1102@gmail.com',
+        pass: 'Idontcare@24'
+    }
+});
+const y = {
+    from: 'pickaxe1102@gmail.com',
+    to: 'cjan1102@gmail.com',
+    subject: 'Testing',
+    text: 'Hello, Please provide the feedback.!'
+};
+
+x.sendMail(y, (error, info) => {
+    if (error) {
+        console.log('Error:', error);
+    } else {
+        console.log('Email sent:', info.response);
+    }
+});
 
    const sumMarks=marks.reduce((sum,marks)=>sum+marks)
    console.log(sumMarks);

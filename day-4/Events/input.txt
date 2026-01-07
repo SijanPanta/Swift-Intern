@@ -1,0 +1,1 @@
+This article briefly introduces databases for Node/Express. It then goes on to show how we can use Mongoose to provide database access for the LocalLibrary website. It explains how object schema and models are declared, the main field types, and basic validation. It also briefly shows a few of the main ways you can access model data.
