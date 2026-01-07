@@ -13,9 +13,13 @@ app.get("/", (req, res) => {
 app.get("/:id", (req, res) => {
   fs.readFile("user.json", "utf8", (err, data) => {
     if (err) res.send(err);
+
     var users = JSON.parse(data);
 
     var user = users["user" + req.params.id];
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
     res.end(JSON.stringify(user));
   });
 });
@@ -48,6 +52,16 @@ app.post("/", (req, res) => {
     });
   });
 });
+
+app.delete("/:id", (req, res) => {
+  fs.readFile("user.json", (err, data) => {
+    if (err) res.json({ error: "couldnt read file" });
+    var data = JSON.parse(data);
+    delete data["user" + req.params.id];
+    res.json({ erroor: "data deleted" });
+  });
+});
+
 var server = app.listen(port, () => {
   console.log("app is running in port:" + port);
 });
