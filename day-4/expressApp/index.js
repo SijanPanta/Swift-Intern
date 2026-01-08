@@ -62,6 +62,35 @@ app.delete("/:id", (req, res) => {
   });
 });
 
+app.patch("/:id", (req, res) => {
+  fs.readFile("user.json", "utf8", (err, data) => {
+    if (err) return res.status(500).json({ error: "couldn't read file" });
+    
+    var users = JSON.parse(data);
+    const userKey = "user" + req.params.id;
+    
+    if (!users[userKey]) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    
+    // Update only the fields provided in req.body
+    const { name, password, profession } = req.body;
+    if (name) users[userKey].name = name;
+    if (password) users[userKey].password = password;
+    if (profession) users[userKey].profession = profession;
+    
+    fs.writeFile("user.json", JSON.stringify(users, null, 2), (err) => {
+      if (err) {
+        return res.status(500).json({ error: "Failed to write file" });
+      }
+      res.json({ 
+        message: "User updated successfully",
+        user: users[userKey]
+      });
+    });
+  });
+});
+
 var server = app.listen(port, () => {
   console.log("app is running in port:" + port);
 });
