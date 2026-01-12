@@ -7,6 +7,7 @@ login.post("/", async (req, res) => {
   try {
     const { userName, password } = req.body;
     const users = req.app.get("users");
+    console.log(users);
 
     // Validation
     if (!userName || !password) {
