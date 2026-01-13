@@ -27,19 +27,23 @@ console.log(
 const data = "Important document: Transfer $1000 to Alice";
 console.log("📄 Original data:", data, "\n");
 
+//create sign
 const sign = crypto.createSign("SHA256");
 sign.update(data);
 sign.end();
 
+//generate signature using sign
 const signature = sign.sign(privateKey, "hex");
 console.log("🔏 Digital Signature:", signature.substring(0, 50) + "...\n");
 
 console.log("🔍 Verifying signature...\n");
 
+//create verify variable
 const verify = crypto.createVerify("SHA256");
 verify.update(data);
 verify.end();
 
+//use the verify variable to verify the data
 const isValid = verify.verify(publicKey, signature, "hex");
 console.log("✅ Signature is valid:", isValid, "\n");
 
