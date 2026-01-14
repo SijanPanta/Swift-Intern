@@ -15,6 +15,17 @@ function hashPassword(password, salt, callback) {
   });
 }
 
+function verifyPassword(password, salt, storedHash, callback) {
+  crypto.scrypt(password, salt, 64, (err, genKey) => {
+    if (err) {
+      callback(err);
+    } else {
+      const hashToVerify = genKey.toString("hex");
+      callback(null, hashToVerify === storedHash);
+    }
+  });
+}
+
 app.get("/", (req, res) => {
   res.send(`
     <h1>Auth Server with Scrypt</h1>
@@ -67,20 +78,32 @@ app.post("/login", (req, res) => {
     return res.status(401).json({ error: "Invalid credentials" });
   }
 
-  hashPassword(password, user.salt, (err, hash) => {
+  verifyPassword(password, user.salt, user.hash, (err, isValid) => {
     if (err) {
-      return res.status(500).json({ error: "Server error" });t
+      return res.status(500).json({ error: "Server error" });
     }
 
-    if (hash === user.hash) {
-      res.status(200).json({
-        message: "Login successful",
-        username: username,
-      });
+    if (isValid) {
+      res.status(200).json({ message: "Login successful", username: username });
     } else {
       res.status(401).json({ error: "Invalid credentials" });
     }
   });
+
+  // hashPassword(password, user.salt, (err, hash) => {
+  //   if (err) {
+  //     return res.status(500).json({ error: "Server error" });
+  //   }
+
+  //   if (hash === user.hash) {
+  //     res.status(200).json({
+  //       message: "Login successful",
+  //       username: username,
+  //     });
+  //   } else {
+  //     res.status(401).json({ error: "Invalid credentials" });
+  //   }
+  // });
 });
 
 app.listen(PORT, () => {
