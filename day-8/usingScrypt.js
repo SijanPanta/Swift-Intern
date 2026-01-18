@@ -124,7 +124,6 @@ app.post("/login", (req, res) => {
     if (err) {
       return res.status(500).json({ error: "Server error" });
     }
-
     if (hash === user.hash) {
       // Generate JWT token
       const token = jwt.sign({ username: username }, JWT_SECRET, {

@@ -1,16 +1,12 @@
 const express = require("express");
 const multer = require("multer");
-const path = require("path");
+// const path = require("path");
 const fs = require("fs");
 
 const app = express();
 const PORT = 3000;
 
-// Create uploads directory if it doesn't exist
 const uploadDir = "./uploads";
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir);
-}
 
 // Configure multer storage
 const storage = multer.diskStorage({
