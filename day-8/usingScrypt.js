@@ -6,7 +6,7 @@ const app = express();
 const users = {};
 
 const PORT = 3000;
-const JWT_SECRET = crypto.randomBytes(32).toString("hex"); // In production: use env variable
+const JWT_SECRET = crypto.randomBytes(32).toString("hex");
 
 app.use(express.json());
 
@@ -75,8 +75,10 @@ app.get("/", (req, res) => {
 app.post("/register", (req, res) => {
   const { username, password, email } = req.body;
 
-  if (!username || !password) {
-    return res.status(400).json({ error: "Username and password required" });
+  if (!username || !password || !email) {
+    return res
+      .status(400)
+      .json({ error: "Username password and email required" });
   }
 
   if (users[username]) {
@@ -94,12 +96,13 @@ app.post("/register", (req, res) => {
     users[username] = {
       salt,
       hash,
-      email: email ? encrypt(email) : null,
+      email: encrypt(email),
     };
 
     res.status(201).json({
       message: "User registered successfully",
       username: username,
+      encryptedEmail: users[username].email,
     });
   });
 });
