@@ -32,7 +32,6 @@ app.get('/public-key', (req, res) => {
 // Endpoint to decrypt data
 app.post('/decrypt', (req, res) => {
   const { encryptedData } = req.body;
-
   if (!encryptedData) {
     return res.status(400).send({ error: 'No encrypted data provided' });
   }
@@ -41,7 +40,7 @@ app.post('/decrypt', (req, res) => {
     const decryptedData = crypto.privateDecrypt(
       {
         key: privateKey,
-        padding: crypto.constants.RSA_PKCS1_PADDING, // Important: Match JSEncrypt padding
+        padding: crypto.constants.RSA_PKCS1_PADDING, 
       },
       Buffer.from(encryptedData, 'base64')
     );
