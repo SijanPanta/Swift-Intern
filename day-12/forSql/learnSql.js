@@ -1,12 +1,16 @@
 import mysql from "mysql2/promise";
+import dotenv from "dotenv";
+
+// Load environment variables
+dotenv.config();
 
 // Database configuration
 const dbConfig = {
-  host: "localhost",
-  user: "root",
-  password: "root123",
-  database: "testdb",
-  port: 3307,
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+  port: process.env.DB_PORT,
 };
 
 // Create connection
@@ -25,22 +29,13 @@ await connection.execute(`
   )
 `);
 console.log("Table 'users' created successfully");
-
+const data = [
+  ["John Doe", "john@example.com", 30],
+  ["Jane Smith", "jane@example.com", 25],
+  ["Bob Wilson", "bob@example.com", 35],
+];
 // CREATE - Insert new users
-await connection.execute(
-  "INSERT INTO users (name, email, age) VALUES (?, ?, ?), (?, ?, ?), (?, ?, ?)",
-  [
-    "John Doe",
-    "john@example.com",
-    30,
-    "Jane Smith",
-    "jane@example.com",
-    25,
-    "Bob Wilson",
-    "bob@example.com",
-    35,
-  ],
-);
+await connection.query("INSERT INTO users (name, email, age) VALUES ?", [data]);
 console.log("Users inserted successfully");
 
 // READ - Select all users
@@ -81,3 +76,11 @@ console.log("Final users list:", finalUsers);
 // Close connection
 await connection.end();
 console.log("\nConnection closed");
+
+// let arr = [
+//   [1, 2, 3],
+//   ["a", "b", "c"],
+// ];
+
+// const [nums,letters]=arr;
+// console.log(nums,letters);

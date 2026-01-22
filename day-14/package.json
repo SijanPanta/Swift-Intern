@@ -1,8 +1,8 @@
 {
-  "name": "day-12",
+  "name": "day-14",
   "version": "1.0.0",
   "description": "",
-  "main": "learnSql.js",
+  "main": "customException.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -11,8 +11,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^17.2.3",
-    "express": "^5.2.1",
-    "mysql2": "^3.16.1"
+    "express": "^5.2.1"
   }
 }
