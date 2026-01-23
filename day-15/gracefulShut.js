@@ -13,8 +13,8 @@ const dbConfig = {
 };
 const connection = mysql.createConnection(dbConfig);
 
-import WebSocket from "ws";
-const ws = new WebSocket("ws://example.com");
+// import WebSocket from "ws";
+// const ws = new WebSocket("ws://example.com");
 
 // import { fork } from "child_process";
 // const child = fork("path/to/your/script.js");
@@ -52,6 +52,8 @@ process.on("SIGINT", () => {
   });
 });
 
+//not needed if no docker or kubernetics is involved
+
 function closeDBConnection() {
   connection.end((err) => {
     if (err) {
@@ -64,6 +66,6 @@ function closeDBConnection() {
   });
 }
 
-function closeWSConnection() {
-  ws.close(1000, "Process terminated"); // 1000 is the normal closure code
-}
+// function closeWSConnection() {
+//   ws.close(1000, "Process terminated"); // 1000 is the normal closure code
+// }
