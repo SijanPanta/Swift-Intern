@@ -4,7 +4,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.addColumn('students', 'email', {
       type: DataTypes.STRING,
-      allowNull: true  // or false if required
+      allowNull: true  
     });
   },
   async down(queryInterface, Sequelize) {

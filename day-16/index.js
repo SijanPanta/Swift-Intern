@@ -4,7 +4,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
-const { sequelize, Student } = require("./models");
+const { sequelize, Student,Post } = require("./models");
 app.post("/", async (req, res) => {
   const { name, age, subject, address,email } = req.body;
   try {
