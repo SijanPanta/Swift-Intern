@@ -4,16 +4,21 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json());
-const { sequelize, Student,Post } = require("./models");
+const { sequelize, Student, Post } = require("./models");
+const student = require("./models/student");
+
 app.post("/", async (req, res) => {
-  const { name, age, subject, address,email } = req.body;
+  const { name, age, subject, address, email } = req.body;
+  // if(!name||!email){
+  //   return res.status(400).json({error:"name and email is required"})
+  // }
   try {
     const user = await Student.create({
       name,
       age,
       subject,
       address,
-      email
+      email,
     });
     return res.json(user);
   } catch (err) {
@@ -23,7 +28,9 @@ app.post("/", async (req, res) => {
 
 app.get("/", async (req, res) => {
   try {
-    const users = await Student.findAll();
+    const users = await Student.findAll({
+      include:'posts'
+    });
     return res.json(users);
   } catch (err) {
     console.log(err);
@@ -42,11 +49,40 @@ app.get("/debug/schema", async (req, res) => {
   }
 });
 
+app.post("/posts", async (req, res) => {
+  const { userUuid, body } = req.body;
+  
+  try {
+    const user = await Student.findOne({ where: { uuid: userUuid } });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    const post = await Post.create({ body, studentId: user.id });
+    return res.json(post);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json(err);
+  }
+});
+
+app.get("/posts", async (req, res) => {
+  try {
+    const posts = await Post.findAll({
+      include: [student ],
+    });
+    return res.json(posts);
+  } catch (err) {
+    console.log(err);
+    return res.status(500).json(err);
+  }
+});
+
 app.get("/:id", async (req, res) => {
   const id = req.params.id;
   try {
     const user = await Student.findOne({
       where: { id },
+      include:'posts'
     });
     return res.json(user);
   } catch (err) {
