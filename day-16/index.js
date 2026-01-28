@@ -29,7 +29,7 @@ app.post("/", async (req, res) => {
 app.get("/", async (req, res) => {
   try {
     const users = await Student.findAll({
-      include:'posts'
+      include: "posts",
     });
     return res.json(users);
   } catch (err) {
@@ -51,7 +51,7 @@ app.get("/debug/schema", async (req, res) => {
 
 app.post("/posts", async (req, res) => {
   const { userUuid, body } = req.body;
-  
+
   try {
     const user = await Student.findOne({ where: { uuid: userUuid } });
     if (!user) {
@@ -68,7 +68,7 @@ app.post("/posts", async (req, res) => {
 app.get("/posts", async (req, res) => {
   try {
     const posts = await Post.findAll({
-      include: [student ],
+      include: [student],
     });
     return res.json(posts);
   } catch (err) {
@@ -82,9 +82,23 @@ app.get("/:id", async (req, res) => {
   try {
     const user = await Student.findOne({
       where: { id },
-      include:'posts'
+      include: "posts",
     });
     return res.json(user);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+app.delete("/:id", async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await Student.findOne({
+      where: { id },
+    });
+    await user.destroy();
+    return res.json({ message: "user deleted" });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);
@@ -96,6 +110,23 @@ app.delete("/truncate", async (req, res) => {
     await Student.destroy({ truncate: true });
     res.json({ message: "All students deleted" });
   } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+app.patch("/:id", async (req, res) => {
+  const id = req.params.id;
+  const { address, age } = req.body;
+  try {
+    const user = await Student.findOne({
+      where: { id },
+    });
+    user.address = address;
+    user.age = age;
+    await user.save();
+    return res.json({ message: "user updated" });
+  } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });
