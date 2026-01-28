@@ -11,25 +11,25 @@
     <input type="text" id="message" placeholder="Enter message" />
     <button id="sendBtn">Send</button>
     <script src="/socket.io/socket.io.js"></script>
-    <script>
-      const socket = io();
-      const sendBtn = document.getElementById("sendBtn");
-      const messageInput = document.getElementById("message");
-      const inputMessage = messageInput.value;
-      sendBtn.addEventListener("click", (e) => clickFun(inputMessage));
-      messageInput.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" && inputMessage) {
-          clickFun(inputMessage);
-        }
-      });
+    <script src="main.js">
+    //   const socket = io();
+    //   const sendBtn = document.getElementById("sendBtn");
+    //   const messageInput = document.getElementById("message");
+    //   const inputMessage = messageInput.value;
+    //   sendBtn.addEventListener("click", (e) => clickFun(inputMessage));
+    //   messageInput.addEventListener("keydown", (e) => {
+    //     if (e.key === "Enter" && inputMessage) {
+    //       clickFun(inputMessage);
+    //     }
+    //   });
 
-      function clickFun(mes) {
-        socket.emit("message", mes);
-      }
+    //   function clickFun(mes) {
+    //     socket.emit("message", mes);
+    //   }
 
-      socket.on("out-msg", (message) => {
-        console.log( message);
-      });
+    //   socket.on("out-msg", (message) => {
+    //     console.log( message);
+    //   });
     </script>
   </body>
 </html>
