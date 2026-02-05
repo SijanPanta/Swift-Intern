@@ -2,14 +2,14 @@ const express =require("express");
 const http =require("http");
 const path =require("path")
 const app=express();
-const server=http.createServer(app);
+const httpServer=http.createServer(app);
 const {Server}=require("socket.io")
 
 
-const io=new Server(server);
+const io=new Server(httpServer);
 
 io.on("connection",socket=>{
-    console.log("A new user is connected",socket.id)
+    // console.log("A new user is connected",socket.id)
     socket.on("message",message=>{
         message=socket.id+'='+message;
        socket.broadcast.emit('out-msg',message)
